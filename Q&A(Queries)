@@ -1,0 +1,57 @@
+#Practicing these questions will solidify your understanding of the project and prepare you thoroughly for discussing it in an interview!
+
+**Theoretical Queries (Concepts & Design)**
+These questions assess your understanding of database principles, design choices, and best practices. You wouldn't typically write SQL for these, but rather explain concepts.
+
+Normalization Levels:
+"You mentioned your design aims for Third Normal Form (3NF). Can you explain what 3NF is and how your CUSTOMERS and ISSUES tables, for example, demonstrate adherence to it?"
+"What are the benefits of achieving 3NF in a system like this? Are there any potential drawbacks, and how might you mitigate them?"
+
+Relationships:
+"Describe the type of relationship between ISSUES and RESOLUTIONS. Why did you choose a UNIQUE constraint on ISSUE_ID in the RESOLUTIONS table instead of just a foreign key?"
+"Explain the relationship between SUPPORT_AGENTS and ISSUES. Why is AGENT_ID nullable in the ISSUES table?"
+
+Constraints and Data Integrity:
+"Beyond primary and foreign keys, what other types of constraints (NOT NULL, UNIQUE, CHECK) did you implement? Provide an example for each and explain its role in maintaining data integrity."
+"How does your schema design (e.g., using CHECK constraints on STATUS and PRIORITY) help prevent bad data from entering the system?"
+
+Views vs. Materialized Views (Advanced):
+"You created AGENT_PERFORMANCE_VIEW. When might a regular view like this be preferred over a materialized view? Conversely, when would a materialized view be a better choice for reporting in a production environment?"
+"What are the security implications of using views in your application layer?"
+
+Stored Procedures vs. Direct SQL:
+"You implemented ASSIGN_ISSUE_TO_AGENT as a stored procedure. What are the main advantages of using a stored procedure for this operation compared to executing a direct UPDATE statement from an application?"
+"Are there any scenarios where you might still prefer direct SQL over a stored procedure, even for an update operation?"
+
+Concurrency Control:
+"Imagine two agents try to assign the same unassigned issue (AGENT_ID IS NULL) simultaneously. How does Oracle handle this? What mechanisms are in place to prevent data corruption?"
+"Your ASSIGN_ISSUE_TO_AGENT procedure includes ROLLBACK in its exception handling. Why is this important?"
+
+Indexing Strategy:
+"Based on your schema and the types of queries you've written, which columns would you consider adding indexes to, beyond the primary and foreign keys, to improve query performance? Explain your reasoning for each."
+"What is the difference between a B-tree index and a bitmap index, and when might you use each in this system?" (If relevant to Oracle context).
+
+
+**Technical Queries (SQL Coding Tasks)**
+These questions require you to write or interpret SQL code using your defined schema and data.
+
+-Finding Unassigned High-Priority Issues:
+"Write a query to list all issues that have a PRIORITY of 'Critical' or 'High' and are currently unassigned (AGENT_ID IS NULL). Show ISSUE_ID, ISSUE_DESCRIPTION, and REPORT_DATE."
+-Customer's Unresolved Issues:
+"Write a query to find all issues reported by 'Bob Johnson' that are not yet in 'Resolved' or 'Closed' status. Include the ISSUE_ID, ISSUE_DESCRIPTION, STATUS, and PRIORITY."
+-Average Resolution Time by Category:
+"Calculate the average time (in days, rounded to one decimal place) it takes to resolve issues for each CATEGORY_NAME. Only consider issues that have been Resolved."
+-Agents with No Resolved Issues (in a specific period):
+"List the AGENT_NAME of all support agents who have not resolved any issues in the last 30 days. Include agents who haven't resolved any issues at all."
+-Most Frequent Resolution Type for a Customer:
+"For customer 'Alice Smith', find the most frequent RESOLUTION_TYPE for her resolved issues."
+-Updating Issue Priority Based on Age:
+"Write an UPDATE statement that changes the PRIORITY of any 'Open' or 'In Progress' issue to 'Critical' if it has been reported more than 5 days ago and its current priority is 'Medium' or 'Low'."
+-Calling the Stored Procedure:
+"Show the PL/SQL block you would use to call the ASSIGN_ISSUE_TO_AGENT procedure to assign ISSUE_ID 2 to AGENT_ID 4, and display the status and message returned by the procedure."
+-Identifying Issues with Multiple Updates (and their details):
+"Write a query to identify issues that have had their status updated at least once after being reported. Display the ISSUE_ID, REPORT_DATE, and LAST_UPDATE_DATE for such issues."
+-Customer with Most High Priority Issues:
+"Find the CUSTOMER_ID, FIRST_NAME, LAST_NAME, and the total count of 'High' or 'Critical' issues they have reported. Order by the count in descending order."
+-Listing Issues Without Resolutions:
+"Write a query to display all issues that currently do not have a corresponding entry in the RESOLUTIONS table (i.e., they are likely still open, in progress, or unassigned). Include ISSUE_ID, CUSTOMER_ID, STATUS, and REPORT_DATE."
